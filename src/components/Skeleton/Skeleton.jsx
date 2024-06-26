@@ -6,9 +6,7 @@ const Skeleton = ({ count = 1 }) => {
       {count > 1 ? (
         <ul className={styles.list}>
           {[...Array(count)].map((_, index) => (
-            <li key={index} className={styles.item}>
-              2
-            </li>
+            <li key={index} className={styles.item}></li>
           ))}
         </ul>
       ) : (
