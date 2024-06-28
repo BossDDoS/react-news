@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { getCategories, getNews } from '../../api/apiNews';
+import { useDebounce } from '../../helpers/hooks/useDebounce';
 
 import NewsBanner from '../../components/NewsBanner/NewsBanner';
 import NewsList from '../../components/NewsList/NewsList';
@@ -9,12 +10,16 @@ import Pagination from '../../components/Pagination/Pagination';
 import Categories from '../../components/Categories/Categories';
 
 import styles from './styles.module.css';
+import Search from '../../components/Search/Search';
 
 const Main = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [news, setNews] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [keywords, setKeywords] = useState('');
+  const debouncedKeywords = useDebounce(keywords, 1500);
+
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const totalPages = 10;
@@ -26,6 +31,7 @@ const Main = () => {
         page_number: currentPage,
         page_size: pageSize,
         category: selectedCategory === 'all' ? null : selectedCategory,
+        keywords: debouncedKeywords,
       });
       setNews(response.news);
       setIsLoading(false);
@@ -49,7 +55,7 @@ const Main = () => {
 
   useEffect(() => {
     fetchNews(currentPage);
-  }, [currentPage, selectedCategory]);
+  }, [currentPage, selectedCategory, debouncedKeywords]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -67,6 +73,8 @@ const Main = () => {
     setCurrentPage(pageNumber);
   };
 
+  console.log(keywords);
+
   return (
     <main className={styles.main}>
       <Categories
@@ -74,6 +82,7 @@ const Main = () => {
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
+      <Search keywords={keywords} setKeywords={setKeywords} />
       {news.length > 0 && !isLoading ? <NewsBanner item={news[0]} /> : <Skeleton count={1} />}
       <Pagination
         totalPages={totalPages}
