@@ -1,0 +1,28 @@
+.categories {
+  display: flex;
+  gap: 8px;
+  overflow-x: scroll;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.item,
+.active {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 32px;
+  background-color: #f2f4f5;
+}
+
+.item {
+  cursor: pointer;
+}
+
+.active {
+  color: #684eff;
+  background-color: #e7e7ff;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
