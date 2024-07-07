@@ -1,0 +1,18 @@
+.slider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.arrow {
+  border: none;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .arrow {
+    display: none;
+  }
+}
